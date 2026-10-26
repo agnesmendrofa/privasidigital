@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jaga Informasi & Privasi - Media Pembelajaran Informatika SMP</title>
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-blue: #2563eb;
+            --dark-blue: #1e40af;
+            --light-blue: #eff6ff;
+            --accent-purple: #7c3aed;
+            --light-purple: #f3e8ff;
+            --bg-light: #f8fafc;
+            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-light);
+            color: #334155;
+            padding-top: 70px;
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary-blue) !important;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: #475569;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary-blue) !important;
+            transform: translateY(-1px);
+        }
+
+        /* Card and Interactive Elements */
+        .custom-card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            background: #ffffff;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .custom-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .badge-custom {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .btn-primary-custom {
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-purple));
+            border: none;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary-custom:hover {
+            opacity: 0.95;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+            color: white;
+        }
+
+        .btn-outline-custom {
+            border: 2px solid var(--primary-blue);
+            color: var(--primary-blue);
+            padding: 8px 22px;
+            border-radius: 12px;
+            font-weight: 600;
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-custom:hover {
+            background-color: var(--primary-blue);
+            color: white;
+        }
+
+        /* SPA Section Control */
+        .spa-section {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .spa-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Flip Cards for Public/Private */
+        .flip-card {
+            background-color: transparent;
+            height: 180px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+
+        .flip-card-front {
+            background-color: #ffffff;
+            color: #1e293b;
+        }
+
+        .flip-card-back {
+            transform: rotateY(180deg);
+            color: white;
+        }
+
+        .bg-public { background: linear-gradient(135deg, #10b981, #059669); }
+        .bg-private { background: linear-gradient(135deg, #ef4444, #dc2626); }
+
+        /* Quiz Styles */
+        .option-btn {
+            text-align: left;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 12px 18px;
+            margin-bottom: 10px;
+            background: white;
+            transition: all 0.2s ease;
+            width: 100%;
+            font-weight: 500;
+        }
+
+        .option-btn:hover {
+            border-color: var(--primary-blue);
+            background-color: var(--light-blue);
+        }
+
+        .option-btn.selected-correct {
+            background-color: #dcfce7 !important;
+            border-color: #22c55e !important;
+            color: #15803d;
+        }
+
+        .option-btn.selected-incorrect {
+            background-color: #fee2e2 !important;
+            border-color: #ef4444 !important;
+            color: #b91c1c;
+        }
+
+        /* Checkbox Custom List */
+        .checklist-item {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            border-left: 4px solid var(--primary-blue);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        /* Floating Progress Bar */
+        .progress-fixed {
+            position: fixed;
+            top: 56px;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            height: 5px;
+            background-color: #e2e8f0;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-blue), var(--accent-purple));
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Global Progress Bar -->
+    <div class="progress-fixed">
+        <div id="globalProgressBar" class="progress-bar-fill"></div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" onclick="navigateTo('beranda')">
+                <i class="fa-solid fa-shield-halved text-primary fs-3 me-2"></i>
+                <span>PrivasiDigital</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" onclick="navigateTo('beranda')">Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="navigateTo('tujuan')">Tujuan</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="navigateTo('materi')">Ayo Pelajari</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="navigateTo('eksplorasi')">Eksplorasi</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="navigateTo('kasus')">Tantangan</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="navigateTo('kuis')">Latihan 15 Soal</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="navigateTo('hasil')">Hasil Belajar</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="navigateTo('guruLogin')"><i class="fa-solid fa-user-gear me-1"></i> Guru</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-4">
+
+        <!-- ================= 1. BERANDA ================= -->
+        <section id="beranda" class="spa-section active">
+            <div class="row align-items-center my-4 py-4">
+                <div class="col-lg-6">
+                    <span class="badge bg-primary-subtle text-primary fw-bold mb-2 px-3 py-2 rounded-pill">Informatika SMP Kelas VIII</span>
+                    <h1 class="display-4 fw-bold text-dark mb-3">Jaga Informasi & Privasi</h1>
+                    <h3 class="h4 text-primary mb-3">Kunci Aman di Era Digitalisasi</h3>
+                    <p class="lead text-secondary mb-4">Setiap detik di internet, kita meninggalkan jejak. Pelajari cara mengelola jejak digitalmu dan lindungi informasi pribadi dengan bijak!</p>
+                    
+                    <div class="d-flex gap-2 mb-4">
+                        <button class="btn btn-primary-custom" onclick="navigateTo('materi')">
+                            <i class="fa-solid fa-play me-2"></i>Mulai Belajar
+                        </button>
+                        <button id="btnLanjutkan" class="btn btn-outline-custom d-none" onclick="navigateTo('kuis')">
+                            <i class="fa-solid fa-rotate-right me-2"></i>Lanjutkan Latihan
+                        </button>
+                    </div>
+
+                    <div class="p-3 bg-white rounded-3 shadow-sm border">
+                        <small class="text-muted d-block mb-1 fw-bold"><i class="fa-solid fa-chart-line me-1 text-primary"></i> Progres Belajar Kamu:</small>
+                        <div class="progress" style="height: 10px;">
+                            <div id="homeProgressBar" class="progress-bar bg-success" role="progressbar" style="width: 0%;"></div>
+                        </div>
+                        <small id="homeProgressText" class="text-muted mt-1 d-block">0% Selesai</small>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center mt-4 mt-lg-0">
+                    <div class="position-relative d-inline-block">
+                        <img src="https://placehold.co/500x400/2563eb/ffffff?text=Jejak+Digital+%26+Privasi" class="img-fluid rounded-4 shadow-lg" alt="Ilustrasi Privasi Digital">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pertanyaan Pemantik -->
+            <div class="custom-card p-4 my-4 bg-white border-start border-primary border-5">
+                <h4 class="fw-bold mb-3"><i class="fa-solid fa-lightbulb text-warning me-2"></i>Pertanyaan Pemantik</h4>
+                <p class="fs-5">“Pernahkah kamu mengunggah foto, berkomentar, atau membagikan sesuatu di internet? Menurutmu, apakah informasi itu bisa hilang sepenuhnya setelah dihapus?”</p>
+                <div class="row g-2 mt-2" id="pemantikOptions">
+                    <div class="col-md-4">
+                        <button class="btn btn-outline-primary w-100 py-2" onclick="jawabPemantik(1)">Ya, pasti hilang total</button>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-outline-primary w-100 py-2" onclick="jawabPemantik(2)">Bisa saja masih tersimpan</button>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-outline-primary w-100 py-2" onclick="jawabPemantik(3)">Tidak tahu pasti</button>
+                    </div>
+                </div>
+                <div id="pemantikFeedback" class="alert alert-info mt-3 d-none"></div>
+            </div>
+        </section>
+
+        <!-- ================= 2. TUJUAN PEMBELAJARAN ================= -->
+        <section id="tujuan" class="spa-section">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Tujuan Pembelajaran</h2>
+                <p class="text-muted">Apa yang akan kamu kuasai setelah mempelajari media ini?</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="custom-card p-4 h-100 text-center">
+                        <div class="bg-primary-subtle text-primary rounded-circle d-inline-flex p-3 mb-3">
+                            <i class="fa-solid fa-shoe-prints fs-2"></i>
+                        </div>
+                        <h5 class="fw-bold">Memahami Jejak Digital</h5>
+                        <p class="text-secondary small">Menjelaskan pengertian jejak digital serta membedakan jejak aktif dan pasif secara mandiri.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="custom-card p-4 h-100 text-center">
+                        <div class="bg-purple-subtle text-purple rounded-circle d-inline-flex p-3 mb-3" style="background-color: #f3e8ff; color: #7c3aed;">
+                            <i class="fa-solid fa-user-lock fs-2"></i>
+                        </div>
+                        <h5 class="fw-bold">Klasifikasi Informasi</h5>
+                        <p class="text-secondary small">Membedakan mana informasi publik yang boleh dibagikan dan informasi privat yang harus dilindungi.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="custom-card p-4 h-100 text-center">
+                        <div class="bg-success-subtle text-success rounded-circle d-inline-flex p-3 mb-3">
+                            <i class="fa-solid fa-user-shield fs-2"></i>
+                        </div>
+                        <h5 class="fw-bold">Keputusan Aman</h5>
+                        <p class="text-secondary small">Mengambil tindakan yang tepat dan bijak untuk menjaga keamanan diri serta reputasi di dunia digital.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <button class="btn btn-primary-custom" onclick="navigateTo('materi')">Mulai Eksplorasi Materi <i class="fa-solid fa-arrow-right ms-2"></i></button>
+            </div>
+        </section>
+
+        <!-- ================= 3. MATERI PEMBELAJARAN ================= -->
+        <section id="materi" class="spa-section">
+            <div class="mb-4">
+                <h2 class="fw-bold">Ayo Pelajari</h2>
+                <p class="text-muted">Pola Belajar: TANYA &rarr; PELAJARI &rarr; COBA &rarr; SIMPULKAN</p>
+            </div>
+
+            <!-- Nav Tabs Materi -->
+            <ul class="nav nav-pills mb-4" id="materiTab" role="tablist">
+                <li class="nav-item">
+                    <button class="nav-link active fw-bold" id="tab-a" data-bs-toggle="pill" data-bs-target="#materiA">A. Apa itu Jejak Digital?</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link fw-bold" id="tab-b" data-bs-toggle="pill" data-bs-target="#materiB">B. Mengapa Penting?</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link fw-bold" id="tab-c" data-bs-toggle="pill" data-bs-target="#materiC">C. Publik vs Privat</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link fw-bold" id="tab-d" data-bs-toggle="pill" data-bs-target="#materiD">D. Kelola Jejak Digital</button>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="materiTabContent">
+                
+                <!-- Materi A -->
+                <div class="tab-pane fade show active" id="materiA">
+                    <div class="custom-card p-4 mb-4">
+                        <h4 class="fw-bold text-primary mb-3">A. Mengenal Jejak Digital</h4>
+                        <p><strong>Jejak Digital</strong> adalah rekaman atau rekam jejak aktivitas yang kamu tinggalkan saat menggunakan internet atau perangkat digital.</p>
+                        
+                        <div class="row g-3 my-3">
+                            <div class="col-md-6">
+                                <div class="p-3 border rounded-3 bg-light">
+                                    <h5 class="fw-bold text-primary"><i class="fa-solid fa-bullhorn me-2"></i>Jejak Digital Aktif</h5>
+                                    <p class="small text-secondary">Data yang kamu **sengaja bagikan** ke dunia digital.</p>
+                                    <ul class="small mb-0">
+                                        <li>Mengunggah foto/video di media sosial.</li>
+                                        <li>Menulis komentar di YouTube/TikTok.</li>
+                                        <li>Mengisi formulir pendaftaran daring.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-3 border rounded-3 bg-light">
+                                    <h5 class="fw-bold text-purple" style="color: #7c3aed;"><i class="fa-solid fa-eye-slash me-2"></i>Jejak Digital Pasif</h5>
+                                    <p class="small text-secondary">Data yang **tercatat otomatis** tanpa kamu sadari secara langsung.</p>
+                                    <ul class="small mb-0">
+                                        <li>Alamat IP dan lokasi perangkat.</li>
+                                        <li>Riwayat pencarian di web browser.</li>
+                                        <li>Situs web yang kamu kunjungi (cookies).</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mini Interaktif A -->
+                        <div class="p-3 bg-primary-subtle rounded-3">
+                            <h6 class="fw-bold"><i class="fa-solid fa-gamepad me-2"></i>Uji Pemahaman Singkat:</h6>
+                            <p class="small mb-2">Ketika kamu mencari kata "Sepatu Olahraga" di Google, itu termasuk jejak apa?</p>
+                            <button class="btn btn-sm btn-white border me-2" onclick="cekJejakMini('aktif')">Jejak Aktif</button>
+                            <button class="btn btn-sm btn-white border" onclick="cekJejakMini('pasif')">Jejak Pasif</button>
+                            <div id="feedbackJejakMini" class="mt-2 small fw-bold"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Materi B -->
+                <div class="tab-pane fade" id="materiB">
+                    <div class="custom-card p-4 mb-4">
+                        <h4 class="fw-bold text-primary mb-3">B. Mengapa Jejak Digital Sangat Penting?</h4>
+                        <p>Jejak digital membentuk **reputasi digitalmu**. Jejak ini bisa bertahan sangat lama, sulit dihapus sepenuhnya, dan dapat dilihat oleh teman, guru, atau calon pemberi beasiswa/kerja di masa depan.</p>
+                        
+                        <div class="alert alert-warning">
+                            <i class="fa-solid fa-triangle-exclamation me-2"></i><strong>Ingat!</strong> Tidak semua jejak digital itu buruk. Jejak digital positif (seperti prestasi atau karya) justru akan sangat menguntungkanmu!
+                        </div>
+
+                        <h5 class="fw-bold mt-4 mb-3">Simulasi Pilihan Konten</h5>
+                        <p class="small text-muted">Bandingkan dua siswa berikut. Mana yang unggahannya lebih aman dan bertanggung jawab?</p>
+                        
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="card h-100 border-danger">
+                                    <div class="card-header bg-danger text-white fw-bold">Opsi A: Siswa Budi</div>
+                                    <div class="card-body">
+                                        <p class="card-text">"Sebal banget sama teman sekelas! Ini foto dia lagi tidur di kelas, wkwk lucu banget."</p>
+                                        <button class="btn btn-outline-danger btn-sm w-100" onclick="simulasiOpsi('A')">Pilih Opsi A</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card h-100 border-success">
+                                    <div class="card-header bg-success text-white fw-bold">Opsi B: Siswa Ani</div>
+                                    <div class="card-body">
+                                        <p class="card-text">"Selamat buat tim robotik sekolah kita yang berhasil juara 1 kompetisi daerah! #Bangga"</p>
+                                        <button class="btn btn-outline-success btn-sm w-100" onclick="simulasiOpsi('B')">Pilih Opsi B</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="simulasiFeedback" class="mt-3"></div>
+                    </div>
+                </div>
+
+                <!-- Materi C -->
+                <div class="tab-pane fade" id="materiC">
+                    <div class="custom-card p-4 mb-4">
+                        <h4 class="fw-bold text-primary mb-3">C. Membedakan Informasi Publik & Privat</h4>
+                        <p>Sebelum membagikan sesuatu di internet, kamu harus tahu batasan informasi mana yang boleh dibuka untuk umum dan mana yang wajib disembunyikan.</p>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="p-3 border-start border-4 border-success bg-light rounded-3">
+                                    <h5 class="fw-bold text-success"><i class="fa-solid fa-globe me-2"></i>Informasi Publik</h5>
+                                    <p class="small text-muted">Aman dibagikan ke media sosial atau umum:</p>
+                                    <ul class="small">
+                                        <li>Hobi dan minat umum (musik, olahraga).</li>
+                                        <li>Karya tulisan, lukisan, atau video buatan sendiri.</li>
+                                        <li>Kegiatan atau prestasi sekolah yang diizinkan.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-3 border-start border-4 border-danger bg-light rounded-3">
+                                    <h5 class="fw-bold text-danger"><i class="fa-solid fa-lock me-2"></i>Informasi Privat (Sangat Rahasia)</h5>
+                                    <p class="small text-muted">Wajib dilindungi, JANGAN dibagikan sembarangan:</p>
+                                    <ul class="small">
+                                        <li>Kata Sandi (Password) & Kode OTP.</li>
+                                        <li>Alamat rumah lengkap & Nomor Telepon Pribadi.</li>
+                                        <li>Nomor Induk Kependudukan (NIK) / Kartu Pelajar.</li>
+                                        <li>Lokasi langsung secara 'Real-time'.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Materi D -->
+                <div class="tab-pane fade" id="materiD">
+                    <div class="custom-card p-4 mb-4">
+                        <h4 class="fw-bold text-primary mb-3">D. Cara Praktis Mengelola Jejak Digital</h4>
+                        <p class="text-secondary">Gunakan Checklist Interaktif ini untuk mengecek apakah kamu sudah menjaga privasimu dengan baik!</p>
+
+                        <div class="mt-3">
+                            <div class="checklist-item d-flex align-items-center">
+                                <input type="checkbox" class="form-check-input me-3 fs-5" id="chk1" onchange="updateChecklistProgress()">
+                                <label for="chk1" class="mb-0 fw-medium">Berpikir dahulu sebelum mengunggah foto atau menulis komentar (THINK).</label>
+                            </div>
+                            <div class="checklist-item d-flex align-items-center">
+                                <input type="checkbox" class="form-check-input me-3 fs-5" id="chk2" onchange="updateChecklistProgress()">
+                                <label for="chk2" class="mb-0 fw-medium">Tidak pernah memberikan Password atau kode OTP kepada siapa pun, termasuk teman erat.</label>
+                            </div>
+                            <div class="checklist-item d-flex align-items-center">
+                                <input type="checkbox" class="form-check-input me-3 fs-5" id="chk3" onchange="updateChecklistProgress()">
+                                <label for="chk3" class="mb-0 fw-medium">Memeriksa pengaturan privasi akun media sosial agar berstatus 'Private' atau privat.</label>
+                            </div>
+                            <div class="checklist-item d-flex align-items-center">
+                                <input type="checkbox" class="form-check-input me-3 fs-5" id="chk4" onchange="updateChecklistProgress()">
+                                <label for="chk4" class="mb-0 fw-medium">Meminta izin teman sebelum mengunggah foto yang ada wajah mereka.</label>
+                            </div>
+                        </div>
+                        <div class="alert alert-info mt-3" id="chkStatus">Centang seluruh poin di atas jika kamu sudah melakukannya!</div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= 4. EKSPLORASI JEJAK DIGITAL ================= -->
+        <section id="eksplorasi" class="spa-section">
+            <div class="text-center mb-4">
+                <h2 class="fw-bold">Eksplorasi: Publik vs Privat</h2>
+                <p class="text-muted">Klik atau Sentuh Kartu untuk membalik dan melihat apakah informasi tersebut Publik atau Privat!</p>
+            </div>
+
+            <div class="row g-3" id="cardsGrid">
+                <!-- Kartu Flip akan dirender oleh JavaScript -->
+            </div>
+        </section>
+
+        <!-- ================= 5. TANTANGAN PRIVASI (KASUS) ================= -->
+        <section id="kasus" class="spa-section">
+            <div class="mb-4 text-center">
+                <h2 class="fw-bold">Tantangan Privasi Digital</h2>
+                <p class="text-muted">Analisislah skenario berikut dan pilih tindakan yang paling aman!</p>
+            </div>
+
+            <div id="kasusContainer">
+                <!-- Konten Kasus Interaktif di-render oleh JS -->
+            </div>
+        </section>
+
+        <!-- ================= 6. LATIHAN 15 SOAL (KUIS) ================= -->
+        <section id="kuis" class="spa-section">
+            <div class="custom-card p-4 max-w-2xl mx-auto">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="badge bg-primary fs-6" id="quizCounter">Soal 1 dari 15</span>
+                    <span class="badge bg-secondary" id="quizScoreTracker">Skor Sementara: 0</span>
+                </div>
+
+                <div class="progress mb-4" style="height: 8px;">
+                    <div id="quizProgressBar" class="progress-bar bg-primary" role="progressbar" style="width: 6.66%;"></div>
+                </div>
+
+                <h5 class="fw-bold mb-4" id="quizQuestion">Pertanyaan akan dimuat di sini...</h5>
+
+                <div id="quizOptionsContainer" class="d-grid gap-2 mb-4">
+                    <!-- Opsi jawaban di-render JS -->
+                </div>
+
+                <div id="quizExplanation" class="alert d-none mb-3"></div>
+
+                <div class="d-flex justify-content-between">
+                    <button id="btnPrevQuiz" class="btn btn-outline-secondary" onclick="prevQuestion()" disabled><i class="fa-solid fa-arrow-left me-1"></i> Sebelumnya</button>
+                    <button id="btnNextQuiz" class="btn btn-primary-custom" onclick="nextQuestion()" disabled>Selanjutnya <i class="fa-solid fa-arrow-right ms-1"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= 7. HASIL BELAJAR ================= -->
+        <section id="hasil" class="spa-section">
+            <div class="custom-card p-4 text-center max-w-xl mx-auto">
+                <div class="mb-3">
+                    <i class="fa-solid fa-award text-warning display-1"></i>
+                </div>
+                <h3 class="fw-bold">Hasil Belajar Kamu</h3>
+                <p class="text-muted" id="displayNamaSiswa">Siswa Hebat</p>
+
+                <div class="my-4">
+                    <div class="display-2 fw-bold text-primary" id="finalScoreDisplay">0</div>
+                    <span class="badge fs-6 mt-2" id="scoreCategoryBadge">Kategori</span>
+                </div>
+
+                <div class="row g-3 text-center my-3">
+                    <div class="col-6">
+                        <div class="p-3 bg-success-subtle text-success rounded-3">
+                            <h5 class="fw-bold mb-0" id="correctCountDisplay">0</h5>
+                            <small>Jawaban Benar</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-3 bg-danger-subtle text-danger rounded-3">
+                            <h5 class="fw-bold mb-0" id="wrongCountDisplay">0</h5>
+                            <small>Jawaban Salah</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="feedbackText" class="alert alert-info my-3 text-start small"></div>
+
+                <div class="d-flex justify-content-center gap-2 mt-4">
+                    <button class="btn btn-outline-primary" onclick="restartQuiz()"><i class="fa-solid fa-rotate-right me-1"></i> Ulangi Latihan</button>
+                    <button class="btn btn-primary-custom" onclick="navigateTo('materi')"><i class="fa-solid fa-book-open me-1"></i> Pelajari Lagi</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= 8. LOGIN & DASHBOARD GURU ================= -->
+        <section id="guruLogin" class="spa-section">
+            <div class="row justify-content-center">
+                <div class="col-md-5">
+                    <div class="custom-card p-4">
+                        <div class="text-center mb-4">
+                            <i class="fa-solid fa-user-shield text-primary display-4 mb-2"></i>
+                            <h4 class="fw-bold">Portal Login Guru</h4>
+                            <p class="text-muted small">Khusus Pengelola & Guru Informatika</p>
+                        </div>
+
+                        <div class="alert alert-warning small">
+                            <i class="fa-solid fa-circle-info me-1"></i><strong>Akun Uji Coba Demo:</strong><br>
+                            Username: <code>guru</code><br>
+                            Password: <code>DemoGuru123!</code>
+                        </div>
+
+                        <form id="formLoginGuru" onsubmit="event.preventDefault(); loginGuru();">
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Username</label>
+                                <input type="text" id="guruUsername" class="form-control" required placeholder="Masukkan username">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Password</label>
+                                <div class="input-group">
+                                    <input type="password" id="guruPassword" class="form-control" required placeholder="Masukkan password">
+                                    <button class="btn btn-outline-secondary" type="button" onclick="togglePass()"><i class="fa-solid fa-eye" id="passIcon"></i></button>
+                                </div>
+                            </div>
+                            <div id="loginError" class="alert alert-danger small d-none">Username atau Password salah!</div>
+                            <button type="submit" class="btn btn-primary-custom w-100">Masuk Dashboard</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Guru Section -->
+        <section id="guruDashboard" class="spa-section">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h3 class="fw-bold mb-0">Dashboard Guru Informatika</h3>
+                    <small class="text-muted">Kelola Soal & Lihat Hasil Pembelajaran Lokal Perangkat Ini</small>
+                </div>
+                <button class="btn btn-outline-danger btn-sm" onclick="logoutGuru()"><i class="fa-solid fa-right-from-bracket me-1"></i> Keluar</button>
+            </div>
+
+            <!-- Ringkasan Statistik -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-3">
+                    <div class="p-3 bg-white rounded-3 shadow-sm border text-center">
+                        <small class="text-muted">Total Modul</small>
+                        <h3 class="fw-bold text-primary mb-0">4 Modul</h3>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="p-3 bg-white rounded-3 shadow-sm border text-center">
+                        <small class="text-muted">Total Soal</small>
+                        <h3 class="fw-bold text-primary mb-0" id="dashTotalSoal">15 Soal</h3>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="p-3 bg-white rounded-3 shadow-sm border text-center">
+                        <small class="text-muted">Sesi Tersimpan</small>
+                        <h3 class="fw-bold text-success mb-0" id="dashSesiCount">0</h3>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="p-3 bg-white rounded-3 shadow-sm border text-center">
+                        <small class="text-muted">Rata-rata Nilai</small>
+                        <h3 class="fw-bold text-purple mb-0" id="dashAvgScore">0</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs Dashboard -->
+            <ul class="nav nav-tabs mb-3" id="dashTab">
+                <li class="nav-item">
+                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tabHasilSiswa">Hasil Latihan</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabKelolaSoal">Kelola Soal (15)</button>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <!-- Tab Hasil Siswa -->
+                <div class="tab-pane fade show active" id="tabHasilSiswa">
+                    <div class="custom-card p-3">
+                        <div class="d-flex justify-content-between mb-3">
+                            <h5 class="fw-bold">Rekam Hasil Belajar Lokal</h5>
+                            <div>
+                                <button class="btn btn-success btn-sm me-2" onclick="exportCSV()"><i class="fa-solid fa-file-excel me-1"></i> Ekspor CSV</button>
+                                <button class="btn btn-outline-danger btn-sm" onclick="clearDataLokal()"><i class="fa-solid fa-trash me-1"></i> Hapus Data</button>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>Tanggal/Waktu</th>
+                                        <th>Nama/Siswa</th>
+                                        <th>Skor Akhir</th>
+                                        <th>Benar/Salah</th>
+                                        <th>Kategori</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableHasilBody">
+                                    <tr><td colspan="5" class="text-center text-muted">Belum ada data sesi disimpan di perangkat ini.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Kelola Soal -->
+                <div class="tab-pane fade" id="tabKelolaSoal">
+                    <div class="custom-card p-3">
+                        <div class="d-flex justify-content-between mb-3">
+                            <h5 class="fw-bold">Daftar Soal Latihan</h5>
+                            <button class="btn btn-outline-secondary btn-sm" onclick="resetQuestionsToDefault()"><i class="fa-solid fa-rotate-left me-1"></i> Reset ke Default</button>
+                        </div>
+                        <div id="questionsEditorContainer">
+                            <!-- Editor soal akan di-render oleh JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Bootstrap & App JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        /* ================= DATA DEFAULT SOAL & APLIKASI ================= */
+        const defaultQuestions = [
+            {
+                q: "Apa yang dimaksud dengan jejak digital?",
+                options: [
+                    "Kumpulan berkas gambar yang disimpan dalam flashdisk.",
+                    "Rekaman atau data yang terbentuk dari aktivitas seseorang saat menggunakan internet.",
+                    "Kata sandi yang digunakan untuk membuka akun media sosial.",
+                    "Sinyal Wi-Fi yang terhubung pada telepon seluler."
+                ],
+                answer: 1,
+                explanation: "Jejak digital adalah seluruh rekam jejak aktivitas yang tertinggal saat seseorang beraktivitas secara daring."
+            },
+            {
+                q: "Manakah di antara kegiatan berikut yang menghasilkan jejak digital AKTIF?",
+                options: [
+                    "Sistem mencatat alamat IP saat kamu mengunjungi web.",
+                    "Mengunggah foto kegiatan ekstrakurikuler ke media sosial.",
+                    "Situs web menyimpan cookies di dalam browsermu.",
+                    "Aplikasi peta merekam lokasi perangkat secara latar belakang."
+                ],
+                answer: 1,
+                explanation: "Jejak aktif dihasilkan secara sengaja oleh pengguna, contohnya mengunggah foto."
+            },
+            {
+                q: "Manakah contoh informasi yang tergolong ke dalam JEJAK DIGITAL PASIF?",
+                options: [
+                    "Mengisi komentar di video platform digital.",
+                    "Mengirimkan formulir pendaftaran lomba daring.",
+                    "Riwayat pencarian dan catatan alamat IP oleh penyedia layanan.",
+                    "Membuat artikel di blog pribadi."
+                ],
+                answer: 2,
+                explanation: "Jejak pasif terkumpul secara otomatis oleh sistem tanpa tindakan langsung dari pengguna."
+            },
+            {
+                q: "Manakah data di bawah ini yang tergolong INFORMASI PRIVAT dan TIDAK BHOLEH dibagikan sembarangan?",
+                options: [
+                    "Hobi dan jenis musik favorit.",
+                    "Kata sandi akun dan kode OTP.",
+                    "Judul buku yang sedang dibaca.",
+                    "Nama kelompok belajar di sekolah."
+                ],
+                answer: 1,
+                explanation: "Kata sandi dan kode OTP adalah rahasia rahasia akses utama yang wajib dilindungi."
+            },
+            {
+                q: "Mengapa penting bagi kita untuk menjaga jejak digital agar tetap positif?",
+                options: [
+                    "Agar memori HP kita tidak cepat penuh.",
+                    "Karena jejak digital bisa memengaruhi reputasi kita di masa depan.",
+                    "Agar koneksi internet menjadi lebih cepat.",
+                    "Karena jejak digital akan otomatis terhapus dalam 24 jam."
+                ],
+                answer: 1,
+                explanation: "Jejak digital bersifat relatif permanen dan menjadi gambaran reputasi kita di dunia digital."
+            },
+            {
+                q: "Informasi mana yang umumnya AMAN untuk dibagikan secara publik di media sosial?",
+                options: [
+                    "Alamat rumah lengkap dan nomor telepon.",
+                    "Kartu Tanda Penduduk atau Kartu Pelajar.",
+                    "Poster karya seni buatan sendiri.",
+                    "Lokasi tempat tinggal saat sedang sendirian."
+                ],
+                answer: 2,
+                explanation: "Poster karya seni buatan sendiri adalah contoh informasi publik yang positif."
+            },
+            {
+                q: "Tindakan bijak apa yang harus dilakukan SEBELUM mengunggah foto bersama teman di internet?",
+                options: [
+                    "Langsung mengunggah tanpa bertanya.",
+                    "Meminta izin terlebih dahulu kepada teman yang ada di foto.",
+                    "Tag lokasi rumah teman tersebut secara mendetail.",
+                    "Menambahkan tulisan ejekan agar terlihat lucu."
+                ],
+                answer: 1,
+                explanation: "Menghormati privasi orang lain dengan cara meminta izin sebelum publikasi adalah etik digital."
+            },
+            {
+                q: "Seorang asing di media sosial mengiming-imingi hadiah game gratis dan meminta kode OTP milikmu. Tindakan terbaikmu adalah...",
+                options: [
+                    "Memberikan kode OTP karena ingin hadiah.",
+                    "Menolak dan langsung melaporkan/memblokir akun tersebut.",
+                    "Memberikan kode OTP milik teman.",
+                    "Mengirimkan kata sandi sebagai gantinya."
+                ],
+                answer: 1,
+                explanation: "Kode OTP adalah pintu masuk keamanan, jangan pernah membagikannya kepada siapapun."
+            },
+            {
+                q: "Apakah menghapus sebuah foto di akun media sosial menjamin foto tersebut hilang sepenuhnya dari internet?",
+                options: [
+                    "Ya, pasti hilang total dari seluruh sistem.",
+                    "Tidak, karena foto tersebut mungkin sudah diunduh atau ditangkap layar (screenshot) orang lain.",
+                    "Ya, karena server langsung memusnahkan berkasnya.",
+                    "Pasti hilang jika kita mematikan HP."
+                ],
+                answer: 1,
+                explanation: "Sekali diunggah, konten bisa dengan mudah disimpan atau disebarkan ulang oleh pengguna lain."
+            },
+            {
+                q: "Fitur keamanan akun yang memberikan lapisan perlindungan ganda selain password disebut...",
+                options: [
+                    "Autentikasi Multifaktor / Dua Langkah (2FA).",
+                    "Pemberitahuan Otomatis.",
+                    "Pembersih RAM.",
+                    "Mode Pesawat."
+                ],
+                answer: 0,
+                explanation: "Autentikasi multifaktor menambah lapisan keamanan jika kata sandi bocor."
+            },
+            {
+                q: "Manakah kata sandi (password) yang paling KUAT dan AMAN di bawah ini?",
+                options: [
+                    "12345678",
+                    "tanggal_lahir",
+                    "P3n51l_B3rw4rn4!89",
+                    "namasaya"
+                ],
+                answer: 2,
+                explanation: "Kata sandi kuat kombinasi huruf kapital, huruf kecil, angka, dan simbol unik."
+            },
+            {
+                q: "Seseorang mengunggah foto Kartu Pelajar yang menampilkan NIK dan tanggal lahir di medsos. Risiko utamanya adalah...",
+                options: [
+                    "Kartu pelajar menjadi cepat rusak.",
+                    "Data pribadi tersebut disalahgunakan untuk penipuan atau kejahatan identitas.",
+                    "Pengikut di media sosial berkurang.",
+                    "HP menjadi lambat."
+                ],
+                answer: 1,
+                explanation: "NIK dan tanggal lahir adalah identitas sensitif yang berisiko disalahgunakan pencuri identitas."
+            },
+            {
+                q: "Prinsip 'THINK' sebelum mengunggah konten berarti kita harus mempertimbangkan hal berikut, KECUALI...",
+                options: [
+                    "Apakah konten ini Benar (True) dan Menginspirasi (Inspiring)?",
+                    "Apakah konten ini Penting (Necessary) dan Baik (Kind)?",
+                    "Apakah konten ini bakal mendapat banyak balasan ejekan?",
+                    "Apakah konten ini Aman dan tidak melanggar privasi?"
+                ],
+                answer: 2,
+                explanation: "Sengaja memicu ejekan bukan bagian dari prinsip etika komunikasi digital yang aman."
+            },
+            {
+                q: "Jika kamu menjadi korban perundungan siber (cyberbullying) atau kebocoran data, tindakan pertama yang tepat adalah...",
+                options: [
+                    "Membalas dengan kata-kata kasar.",
+                    "Menyimpan bukti dan bercerita/melapor kepada orang tua atau guru.",
+                    "Merahasiakannya karena takut.",
+                    "Menghapus seluruh akun dan merusak ponsel."
+                ],
+                answer: 1,
+                explanation: "Segera melapor dan meminta bantuan orang dewasa tepercaya adalah langkah paling aman."
+            },
+            {
+                q: "Mengapa kita tidak disarankan untuk menyebarkan lokasi 'Live Location' rumah saat sedang sendirian?",
+                options: [
+                    "Menghemat baterai perangkat.",
+                    "Mencegah potensi bahaya kejahatan dari pihak yang berniat buruk.",
+                    "Agar kuota internet tidak cepat habis.",
+                    "Agar tidak mengganggu koneksi sinyal HP."
+                ],
+                answer: 1,
+                explanation: "Membagikan lokasi riil saat sendirian membahayakan keselamatan fisik penggunanya."
+            }
+        ];
+
+        // Global State Variables
+        let questions = JSON.parse(localStorage.getItem('quiz_questions')) || defaultQuestions;
+        let currentQuizIndex = 0;
+        let userAnswers = new Array(questions.length).fill(null);
+        let currentScore = 0;
+
+        // Data Kartu Eksplorasi
+        const eksplorasiItems = [
+            { text: "Foto Hasil Lukisan Seni", type: "publik", desc: "Publik: Aman dibagikan sebagai bentuk apresiasi karya." },
+            { text: "Kode OTP dari SMS", type: "privat", desc: "Privat: Sangat Rahasia! Jangan pernah diberikan ke siapapun." },
+            { text: "Hobi Membaca Komik", type: "publik", desc: "Publik: Informasi umum yang aman untuk interaksi positif." },
+            { text: "Kata Sandi Akun Belajar", type: "privat", desc: "Privat: Kunci utama privasi akunmu." },
+            { text: "Foto Kartu Pelajar (NIK)", type: "privat", desc: "Privat: Mengandung identitas pribadi sensitif." },
+            { text: "Jadwal Pentas Seni Sekolah", type: "publik", desc: "Publik: Informasi kegiatan sekolah umum." },
+            { text: "Alamat Rumah Lengkap", type: "privat", desc: "Privat: Melindungi dari ancaman fisik." },
+            { text: "Video Resensi Buku", type: "publik", desc: "Publik: Konten kreatif dan bermanfaat." }
+        ];
+
+        // Data Kasus Tantangan
+        const kasusItems = [
+            {
+                id: 1,
+                title: "Kasus 1: Mengunggah Kartu Pelajar",
+                desc: "Rani baru saja mendapatkan Kartu Pelajar baru. Karena senang, ia mengambil foto kartu tersebut yang memperlihatkan Nama Lengkap, NIK, dan Tanggal Lahir, lalu berniat mengunggahnya ke Instagram.",
+                options: [
+                    { text: "Langsung unggah agar teman-teman tahu.", correct: false, reason: "Berisiko tinggi! NIK dan Tanggal Lahir dapat disalahgunakan penipu." },
+                    { text: "Menutup/sensor bagian NIK & Tanggal Lahir sebelum diunggah.", correct: true, reason: "Tepat! Kamu membagikan kegembiraan tanpa mengorbankan data sensitif." },
+                    { text: "Kirim ke grup perpesanan umum.", correct: false, reason: "Masih berisiko karena data privat tetap terlihat." }
+                ]
+            },
+            {
+                id: 2,
+                title: "Kasus 2: Hadiah Voucher Game Gratis",
+                desc: "Doni menerima pesan dari akun tak dikenal: 'Selamat! Kamu menang voucher Game Rp 500rb. Balas pesan ini dengan Password dan Kode OTP yang masuk ke SMS-mu sekarang!'",
+                options: [
+                    { text: "Kirimkan OTP agar voucher cepat didapatkan.", correct: false, reason: "Bahaya! Akunmu akan langsung diretas dan dikuasai penipu." },
+                    { text: "Abaikan, laporkan akun penipu tersebut, dan blokir.", correct: true, reason: "Sangat Bijak! Kode OTP dan Password tidak boleh diberikan ke siapapun." },
+                    { text: "Coba berikan password salah terlebih dahulu.", correct: false, reason: "Membuang waktu dan tetap berisiko terpancing kejahatan." }
+                ]
+            }
+        ];
+
+        // Init App On Load
+        window.onload = function() {
+            renderEksplorasiCards();
+            renderKasus();
+            loadQuizQuestion(0);
+            checkSavedProgress();
+            updateGlobalProgress();
+        };
+
+        /* ================= SPA NAVIGATION LOGIC ================= */
+        function navigateTo(sectionId) {
+            document.querySelectorAll('.spa-section').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(nav => nav.classList.remove('active'));
+
+            const targetSection = document.getElementById(sectionId);
+            if(targetSection) {
+                targetSection.classList.add('active');
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            }
+
+            if(sectionId === 'guruDashboard') {
+                renderGuruDashboard();
+            }
+            updateGlobalProgress();
+        }
+
+        function updateGlobalProgress() {
+            let progress = 20; // Base progress
+            if(userAnswers.some(a => a !== null)) progress += 40;
+            if(localStorage.getItem('quiz_completed')) progress = 100;
+            
+            document.getElementById('globalProgressBar').style.width = progress + '%';
+            document.getElementById('homeProgressBar').style.width = progress + '%';
+            document.getElementById('homeProgressText').innerText = progress + '% Selesai';
+        }
+
+        /* ================= INTERAKSI BERANDA & MATERI ================= */
+        function jawabPemantik(pilihan) {
+            const feedback = document.getElementById('pemantikFeedback');
+            feedback.classList.remove('d-none');
+            if(pilihan === 2) {
+                feedback.className = "alert alert-success mt-3";
+                feedback.innerHTML = "<i class='fa-solid fa-circle-check me-2'></i><strong>Tepat sekali!</strong> Meskipun sudah kita hapus, foto/pesan bisa saja sudah di-screenshot atau disimpan di server oleh orang lain. Yuk pelajari lebih lanjut!";
+            } else {
+                feedback.className = "alert alert-warning mt-3";
+                feedback.innerHTML = "<i class='fa-solid fa-circle-info me-2'></i><strong>Tahukah kamu?</strong> Di dunia digital, konten yang dihapus seringkali masih meninggalkan salinan. Mari kita eksplorasi alasannya!";
+            }
+        }
+
+        function cekJejakMini(tipe) {
+            const fb = document.getElementById('feedbackJejakMini');
+            if(tipe === 'aktif') {
+                fb.className = "text-success mt-2 small fw-bold";
+                fb.innerText = "Benar! Mengetik kata kunci di mesin pencari adalah jejak aktif karena sengaja dilakukan.";
+            } else {
+                fb.className = "text-danger mt-2 small fw-bold";
+                fb.innerText = "Kurang tepat. Mengetik pencarian dilakukan secara sengaja, jadi termasuk jejak aktif.";
+            }
+        }
+
+        function simulasiOpsi(opsi) {
+            const fb = document.getElementById('simulasiFeedback');
+            if(opsi === 'B') {
+                fb.className = "alert alert-success";
+                fb.innerHTML = "<strong>Pilihan Hebat!</strong> Konten Ani membangun reputasi positif dan tidak merugikan siapapun.";
+            } else {
+                fb.className = "alert alert-danger";
+                fb.innerHTML = "<strong>Berisiko!</strong> Mengunggah foto teman tanpa izin dan bernada mengejek dapat merusak reputasi dan melanggar privasi orang lain.";
+            }
+        }
+
+        function updateChecklistProgress() {
+            const c1 = document.getElementById('chk1').checked;
+            const c2 = document.getElementById('chk2').checked;
+            const c3 = document.getElementById('chk3').checked;
+            const c4 = document.getElementById('chk4').checked;
+            const status = document.getElementById('chkStatus');
+
+            if(c1 && c2 && c3 && c4) {
+                status.className = "alert alert-success mt-3";
+                status.innerHTML = "<i class='fa-solid fa-circle-check me-2'></i>Luar biasa! Kamu sudah siap menjadi Remaja Cerdas Digital!";
+            }
+        }
+
+        /* ================= EKSPLORASI CARDS LOGIC ================= */
+        function renderEksplorasiCards() {
+            const grid = document.getElementById('cardsGrid');
+            grid.innerHTML = eksplorasiItems.map((item, idx) => `
+                <div class="col-md-3 col-6">
+                    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <i class="fa-solid fa-file-shield text-primary fs-2 mb-2"></i>
+                                <h6 class="fw-bold mb-0">${item.text}</h6>
+                                <small class="text-muted mt-2">Klik untuk Balik</small>
+                            </div>
+                            <div class="flip-card-back ${item.type === 'publik' ? 'bg-public' : 'bg-private'}">
+                                <h6 class="fw-bold">${item.type.toUpperCase()}</h6>
+                                <p class="small mb-0">${item.desc}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        /* ================= KASUS TANTANGAN LOGIC ================= */
+        function renderKasus() {
+            const container = document.getElementById('kasusContainer');
+            container.innerHTML = kasusItems.map(k => `
+                <div class="custom-card p-4 mb-4">
+                    <h5 class="fw-bold text-primary mb-2">${k.title}</h5>
+                    <p class="text-secondary mb-3">${k.desc}</p>
+                    <div class="d-grid gap-2">
+                        ${k.options.map((opt, i) => `
+                            <button class="btn btn-outline-secondary text-start" onclick="jawabKasus(${k.id}, ${i}, this)">
+                                ${opt.text}
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div id="kasusFeedback-${k.id}" class="alert d-none mt-3 mb-0"></div>
+                </div>
+            `).join('');
+        }
+
+        function jawabKasus(kasusId, optIdx, btnEl) {
+            const kasus = kasusItems.find(k => k.id === kasusId);
+            const selected = kasus.options[optIdx];
+            const fb = document.getElementById(`kasusFeedback-${kasusId}`);
+
+            fb.classList.remove('d-none', 'alert-success', 'alert-danger');
+            if(selected.correct) {
+                fb.classList.add('alert-success');
+                fb.innerHTML = `<i class="fa-solid fa-circle-check me-2"></i><strong>Tepat!</strong> ${selected.reason}`;
+            } else {
+                fb.classList.add('alert-danger');
+                fb.innerHTML = `<i class="fa-solid fa-circle-xmark me-2"></i><strong>Kurang Tepat.</strong> ${selected.reason}`;
+            }
+        }
+
+        /* ================= KUIS 15 SOAL LOGIC ================= */
+        function loadQuizQuestion(index) {
+            currentQuizIndex = index;
+            const q = questions[index];
+            
+            document.getElementById('quizCounter').innerText = `Soal ${index + 1} dari ${questions.length}`;
+            document.getElementById('quizProgressBar').style.width = `${((index + 1) / questions.length) * 100}%`;
+            document.getElementById('quizQuestion').innerText = q.q;
+
+            const container = document.getElementById('quizOptionsContainer');
+            container.innerHTML = '';
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = `${String.fromCharCode(65 + idx)}. ${opt}`;
+                
+                // Cek jika sudah pernah dijawab
+                if(userAnswers[index] !== null) {
+                    if(idx === q.answer) btn.classList.add('selected-correct');
+                    if(userAnswers[index] === idx && idx !== q.answer) btn.classList.add('selected-incorrect');
+                }
+
+                btn.onclick = () => selectQuizAnswer(idx);
+                container.appendChild(btn);
+            });
+
+            // Handle Nav Buttons
+            document.getElementById('btnPrevQuiz').disabled = index === 0;
+            document.getElementById('btnNextQuiz').disabled = userAnswers[index] === null;
+            
+            // Show Explanation if answered
+            const exp = document.getElementById('quizExplanation');
+            if(userAnswers[index] !== null) {
+                exp.classList.remove('d-none', 'alert-success', 'alert-danger');
+                const isCorrect = userAnswers[index] === q.answer;
+                exp.classList.add(isCorrect ? 'alert-success' : 'alert-danger');
+                exp.innerHTML = `<strong>${isCorrect ? 'Jawaban Benar!' : 'Jawaban Kurang Tepat.'}</strong> ${q.explanation}`;
+            } else {
+                exp.classList.add('d-none');
+            }
+        }
+
+        function selectQuizAnswer(optionIdx) {
+            userAnswers[currentQuizIndex] = optionIdx;
+            loadQuizQuestion(currentQuizIndex);
+            
+            // Update Score Tracker
+            let score = 0;
+            userAnswers.forEach((ans, idx) => {
+                if(ans === questions[idx].answer) score += 1;
+            });
+            document.getElementById('quizScoreTracker').innerText = `Skor Sementara: ${Math.round((score/questions.length)*100)}`;
+            document.getElementById('btnNextQuiz').disabled = false;
+        }
+
+        function nextQuestion() {
+            if(currentQuizIndex < questions.length - 1) {
+                loadQuizQuestion(currentQuizIndex + 1);
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function prevQuestion() {
+            if(currentQuizIndex > 0) {
+                loadQuizQuestion(currentQuizIndex - 1);
+            }
+        }
+
+        function finishQuiz() {
+            let correct = 0;
+            userAnswers.forEach((ans, idx) => {
+                if(ans === questions[idx].answer) correct++;
+            });
+
+            const score = Math.round((correct / questions.length) * 100);
+            
+            // Simpan Hasil Lokal
+            const sessionData = {
+                date: new Date().toLocaleString('id-ID'),
+                nama: "Siswa SMP",
+                score: score,
+                correct: correct,
+                wrong: questions.length - correct
+            };
+
+            let saved = JSON.parse(localStorage.getItem('quiz_sessions')) || [];
+            saved.push(sessionData);
+            localStorage.setItem('quiz_sessions', JSON.stringify(saved));
+            localStorage.setItem('quiz_completed', 'true');
+
+            // Display Results
+            document.getElementById('finalScoreDisplay').innerText = score;
+            document.getElementById('correctCountDisplay').innerText = correct;
+            document.getElementById('wrongCountDisplay').innerText = questions.length - correct;
+
+            const badge = document.getElementById('scoreCategoryBadge');
+            const fbText = document.getElementById('feedbackText');
+
+            if(score >= 86) {
+                badge.className = "badge bg-success fs-6 mt-2";
+                badge.innerText = "Sangat Baik";
+                fbText.innerText = "Luar biasa! Kamu telah memahami konsep privasi digital dan jejak digital dengan sangat cerdas!";
+            } else if(score >= 76) {
+                badge.className = "badge bg-primary fs-6 mt-2";
+                badge.innerText = "Baik";
+                fbText.innerText = "Bagus sekali! Pemahamanmu tentang keamanan digital sudah cukup tinggi.";
+            } else if(score >= 60) {
+                badge.className = "badge bg-warning fs-6 mt-2";
+                badge.innerText = "Cukup";
+                fbText.innerText = "Cukup baik, namun perhatikan lagi bagian informasi privat agar kamu tidak salah membagikan data.";
+            } else {
+                badge.className = "badge bg-danger fs-6 mt-2";
+                badge.innerText = "Perlu Belajar Kembali";
+                fbText.innerText = "Jangan berkecil hati! Yuk baca kembali materi dan coba latihan sekali lagi.";
+            }
+
+            document.getElementById('btnLanjutkan').classList.remove('d-none');
+            navigateTo('hasil');
+        }
+
+        function restartQuiz() {
+            userAnswers = new Array(questions.length).fill(null);
+            document.getElementById('quizScoreTracker').innerText = `Skor Sementara: 0`;
+            loadQuizQuestion(0);
+            navigateTo('kuis');
+        }
+
+        function checkSavedProgress() {
+            if(localStorage.getItem('quiz_completed')) {
+                document.getElementById('btnLanjutkan').classList.remove('d-none');
+            }
+        }
+
+        /* ================= AUTH & DASHBOARD GURU LOGIC ================= */
+        function loginGuru() {
+            const u = document.getElementById('guruUsername').value;
+            const p = document.getElementById('guruPassword').value;
+
+            if(u === 'guru' && p === 'DemoGuru123!') {
+                document.getElementById('loginError').classList.add('d-none');
+                navigateTo('guruDashboard');
+            } else {
+                document.getElementById('loginError').classList.remove('d-none');
+            }
+        }
+
+        function togglePass() {
+            const input = document.getElementById('guruPassword');
+            const icon = document.getElementById('passIcon');
+            if(input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fa-solid fa-eye-slash';
+            } else {
+                input.type = 'password';
+                icon.className = 'fa-solid fa-eye';
+            }
+        }
+
+        function logoutGuru() {
+            document.getElementById('guruUsername').value = '';
+            document.getElementById('guruPassword').value = '';
+            navigateTo('guruLogin');
+        }
+
+        function renderGuruDashboard() {
+            const sessions = JSON.parse(localStorage.getItem('quiz_sessions')) || [];
+            document.getElementById('dashSesiCount').innerText = sessions.length;
+
+            let totalScore = 0;
+            sessions.forEach(s => totalScore += s.score);
+            const avg = sessions.length > 0 ? Math.round(totalScore / sessions.length) : 0;
+            document.getElementById('dashAvgScore').innerText = avg;
+
+            // Render Table
+            const tbody = document.getElementById('tableHasilBody');
+            if(sessions.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted">Belum ada data sesi disimpan di perangkat ini.</td></tr>`;
+            } else {
+                tbody.innerHTML = sessions.map(s => `
+                    <tr>
+                        <td><small>${s.date}</small></td>
+                        <td>${s.nama}</td>
+                        <td><span class="fw-bold text-primary">${s.score}</span></td>
+                        <td>${s.correct} / ${s.wrong}</td>
+                        <td><span class="badge bg-secondary">${s.score >= 76 ? 'Tuntas' : 'Belum Tuntas'}</span></td>
+                    </tr>
+                `).join('');
+            }
+
+            // Render Kelola Soal Editor
+            const qContainer = document.getElementById('questionsEditorContainer');
+            qContainer.innerHTML = questions.map((q, i) => `
+                <div class="border rounded-3 p-3 mb-3 bg-light">
+                    <h6 class="fw-bold">Soal #${i+1}</h6>
+                    <input type="text" class="form-control mb-2" value="${q.q}" onchange="updateQuestionText(${i}, this.value)">
+                    <small class="text-muted fw-bold">Opsi Jawaban:</small>
+                    <div class="row g-2 mt-1">
+                        ${q.options.map((opt, optI) => `
+                            <div class="col-md-6">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text">${String.fromCharCode(65+optI)}</span>
+                                    <input type="text" class="form-control" value="${opt}" onchange="updateOptionText(${i}, ${optI}, this.value)">
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateQuestionText(qIdx, val) {
+            questions[qIdx].q = val;
+            localStorage.setItem('quiz_questions', JSON.stringify(questions));
+        }
+
+        function updateOptionText(qIdx, optIdx, val) {
+            questions[qIdx].options[optIdx] = val;
+            localStorage.setItem('quiz_questions', JSON.stringify(questions));
+        }
+
+        function resetQuestionsToDefault() {
+            if(confirm("Apakah Anda yakin ingin mengembalikan seluruh soal ke versi awal?")) {
+                questions = [...defaultQuestions];
+                localStorage.removeItem('quiz_questions');
+                renderGuruDashboard();
+                alert("Soal berhasil dikembalikan ke versi default.");
+            }
+        }
+
+        function clearDataLokal() {
+            if(confirm("Apakah Anda yakin ingin menghapus seluruh rekam hasil siswa di perangkat ini?")) {
+                localStorage.removeItem('quiz_sessions');
+                localStorage.removeItem('quiz_completed');
+                renderGuruDashboard();
+                alert("Data rekam lokal berhasil dihapus.");
+            }
+        }
+
+        function exportCSV() {
+            const sessions = JSON.parse(localStorage.getItem('quiz_sessions')) || [];
+            if(sessions.length === 0) {
+                alert("Tidak ada data untuk diekspor!");
+                return;
+            }
+
+            let csvContent = "data:text/csv;charset=utf-8,Tanggal,Nama,Skor,Benar,Salah\n";
+            sessions.forEach(s => {
+                csvContent += `"${s.date}","${s.nama}",${s.score},${s.correct},${s.wrong}\n`;
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "hasil_belajar_informatika.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>
